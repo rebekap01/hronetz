@@ -1,0 +1,28 @@
+100,Model S,30000
+010,Model E,50000
+001,Model X,70000
+
+111,Long Range,0
+111,Performance,20000
+
+111,Two-wheel Drive,0
+011,All-wheel Drive,10000
+
+111,Pearl White,0,white
+111,Solid Black,1000,black
+111,Midnight Silver,2000,gray
+111,Deep Blue Metallic,3000,blue
+111,Strawberry Red,1000,red
+
+100,Silver,0,lightGray,19
+100,Sonic Carbon Slipstream,1000,gray,19
+100,Sonic Carbon Twin Turbine,2000,black,21
+010,Aero,0,lightGray,18
+010,Sport,2000,lightGray,19
+001,Silver,0,lightGray,20
+001,Two-Tone Slipstream,1000,gray,20
+001,Onyx Black,3000,black,22
+
+111,All Black,0,black,black
+101,Black and White,1000,white,black,
+111,Cream,5000,orange,brown
