@@ -29,15 +29,20 @@ class hronetz extends JFrame implements ActionListener {
     Vector<paint> paintTypes;
     Vector<wheels> wheelTypes;
     Vector<interior> interiorTypes;
+    Vector<String> modelNames, batteryNames, engineNames, paintNames, wheelNames, interiorNames;
 
     String path;
 
-    JPanel north, center, south;
-    JComboBox box1, box2, box3, box4, box5, box6;
-    JButton button;
+    JPanel North;
+    JPanel South;
+    JPanel Center;
+    JButton submit;
+    JComboBox modelbox, batterybox, enginebox, paintbox, wheelbox, interiorbox;
+    int model;
 
     hronetz(String path) {
-
+        super("GUI");
+        
         modelTypes = new Vector<choice>();
         batteryTypes = new Vector<battery>();
         engineTypes = new Vector<engine>();
@@ -46,28 +51,138 @@ class hronetz extends JFrame implements ActionListener {
         interiorTypes = new Vector<interior>();
         this.path = path;
 
+         modelNames = new Vector<String>();
+        for (int i=0; i<modelTypes.size() ; i++) {
+            modelNames.add(modelTypes.elementAt(i).name);
+        }
 
+        this.setSize(1800, 1000);
+        this.getContentPane().setBackground(Color.WHITE);
+        setLayout(new BorderLayout());
 
-        this.setSize(1000, 1000);
-        this.setResizable(false);
-        this.setVisible(true);
-        this.setTitle("hronetz.exe");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        modelbox = new JComboBox(modelNames);
 
-        north = new JPanel();
-        this.add(north, BorderLayout.NORTH);
-        center = new JPanel();
-        this.add(center, BorderLayout.CENTER);
-        south = new JPanel();
-        this.add(south, BorderLayout.SOUTH);
+        North = new JPanel();
+        this.add(North, BorderLayout.NORTH);
+        North.setOpaque(false);
+        modelbox.addActionListener(this);
+        North.add(modelbox);
+
+        Center = new JPanel();
+        this.add(Center, BorderLayout.CENTER);
+        Center.setOpaque(false);
+
+        South = new JPanel();
+        this.add(South, BorderLayout.SOUTH);
+        South.setOpaque(false);
+
+        setVisible(true);
+        setResizable(false);
 
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
+        Graphics g = Center.getGraphics();
+        if (e.getSource() == modelbox) {
+            model =modelbox.getSelectedIndex();
+            North.revalidate();
+            batteryNames = new Vector<String>();
+            for (int i=0; i<batteryTypes.size() ; i++) {
+                if (batteryTypes.elementAt(i).isCompatible(model))
+                    batteryNames.add(batteryTypes.elementAt(i).name);
+            }
 
+            engineNames = new Vector<String>();
+            for (int i=0; i<engineTypes.size() ; i++) {
+                if (engineTypes.elementAt(i).isCompatible(model))
+                    engineNames.add(engineTypes.elementAt(i).name);
+            }
+
+            paintNames = new Vector<String>();
+            for (int i=0; i<paintTypes.size() ; i++) {
+                if (paintTypes.elementAt(i).isCompatible(model))
+                    paintNames.add(paintTypes.elementAt(i).name);
+            }
+
+            wheelNames = new Vector<String>();
+            for (int i=0; i<wheelTypes.size() ; i++) {
+                if (wheelTypes.elementAt(i).isCompatible(model))
+                    wheelNames.add(wheelTypes.elementAt(i).name);
+            }
+
+            interiorNames = new Vector<String>();
+            for (int i=0; i<interiorTypes.size() ; i++) {
+                if (interiorTypes.elementAt(i).isCompatible(model))
+                    interiorNames.add(interiorTypes.elementAt(i).name);
+            }
+            batterybox = new JComboBox(batteryNames);
+            enginebox = new JComboBox(engineNames);
+            paintbox = new JComboBox(paintNames);
+            wheelbox = new JComboBox(wheelNames);
+            interiorbox = new JComboBox(interiorNames);
+            batterybox.addActionListener(this);
+            North.add(batterybox);
+            enginebox.addActionListener(this);
+            North.add(enginebox);
+            paintbox.addActionListener(this);
+            North.add(paintbox);
+            wheelbox.addActionListener(this);
+            North.add(wheelbox);
+            interiorbox.addActionListener(this);
+            North.add(interiorbox);
+            submit = new JButton("Submit");
+            submit.addActionListener(this);
+            North.add(submit);
+        }
+        if(e.getSource()== submit) {
+
+            car selectedCar = new car();
+
+            // store model data
+            selectedCar.add(modelTypes.elementAt(model));
+
+            // store battery data
+            for (int i = 0; i < batteryTypes.size(); i++) {
+                if (batteryTypes.elementAt(i).name == batterybox.getSelectedItem())
+                    selectedCar.add(batteryTypes.elementAt(i));
+            }
+            // store engine data
+            for (int i = 0; i < engineTypes.size(); i++) {
+                if (engineTypes.elementAt(i).name == enginebox.getSelectedItem())
+                    selectedCar.add(engineTypes.elementAt(i));
+
+            }
+            // store paint data
+            for (int i = 0; i < paintTypes.size(); i++) {
+                if (paintTypes.elementAt(i).name == paintbox.getSelectedItem())
+                    selectedCar.add(paintTypes.elementAt(i));
+
+            }
+
+            // store wheel data
+            for (int i = 0; i < wheelTypes.size(); i++) {
+                if (wheelTypes.elementAt(i).name == wheelbox.getSelectedItem())
+                    selectedCar.add(wheelTypes.elementAt(i));
+
+            }
+
+            // store interior data
+            for (int i = 0; i < interiorTypes.size(); i++) {
+                if (interiorTypes.elementAt(i).name == interiorbox.getSelectedItem())
+                    selectedCar.add(interiorTypes.elementAt(i));
+
+            }
+            g.fillPolygon(new int[]{500, 600, 600, 800, 800, 500}, new int[]{500, 500, 410, 410, 600, 600}, 6);
+            g.setColor(Color.BLUE);
+            g.fillRect(600, 450, 70, 50);
+            g.setColor(Color.LIGHT_GRAY);
+            g.fillOval(550, 570, 70, 70);
+            g.fillOval(700, 570, 70, 70);
+            g.setColor(Color.YELLOW);
+            g.fillRect(500, 520, 30, 25);
+        }
     }
-}
+
 
 class dataLoader {
 
@@ -134,6 +249,10 @@ class car {
         for (int i = 0; i < 3; i++)
             colors[i] = settings.elementAt(i+3).color;
     }
+    void add(choice item)
+        {
+            settings.add(item);
+        }
 }
 
 // choice is the base class for settings of the car
