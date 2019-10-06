@@ -172,14 +172,29 @@ class hronetz extends JFrame implements ActionListener {
                     selectedCar.add(interiorTypes.elementAt(i));
 
             }
-            g.fillPolygon(new int[]{500, 600, 600, 800, 800, 500}, new int[]{500, 500, 410, 410, 600, 600}, 6);
-            g.setColor(Color.BLUE);
-            g.fillRect(600, 450, 70, 50);
-            g.setColor(Color.LIGHT_GRAY);
-            g.fillOval(550, 570, 70, 70);
-            g.fillOval(700, 570, 70, 70);
-            g.setColor(Color.YELLOW);
-            g.fillRect(500, 520, 30, 25);
+           paint p =(paint)selectedCar.settings.elementAt(3);
+                g.setColor(p.getColor());
+                if(model==0){
+                    g.fillPolygon(new int[]{500, 600, 600, 800, 800, 500}, new int[]{500, 500, 410, 410, 600, 600}, 6);
+                    g.setColor(Color.BLACK);
+                    g.drawPolygon(new int[]{500, 600, 600, 800, 800, 500}, new int[]{500, 500, 410, 410, 600, 600}, 6);}
+                else if(model==1){
+                    g.fillPolygon(new int[]{500,600,600,840,840,500}, new int[]{500,500,380,380,600,600},6);
+                    g.setColor(Color.BLACK);
+                    g.drawPolygon(new int[]{500,600,600,840,840,500}, new int[]{500,500,380,380,600,600},6);}
+                else if(model==2){
+                    g.fillPolygon(new int[]{500,600,600,850,850,500}, new int[]{500,500,390,390,600,600},6);
+                    g.setColor(Color.BLACK);
+                    g.drawPolygon(new int[]{500,600,600,850,850,500}, new int[]{500,500,390,390,600,600},6);}
+                interior i=(interior)selectedCar.settings.elementAt(5);
+                g.setColor(i.getprimaryColor());
+                g.fillRect(600, 450, 70, 50);
+                wheels w = (wheels) selectedCar.settings.elementAt(4);
+                g.setColor(w.getColor());
+                g.fillOval(550, 570, w.getWidth()*3, w.getWidth()*3);
+                g.fillOval(700, 570, w.getWidth()*3, w.getWidth()*3);
+                g.setColor(Color.YELLOW);
+                g.fillRect(500, 520, 30, 25);
         }
     }
 
